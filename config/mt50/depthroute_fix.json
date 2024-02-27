@@ -1,0 +1,73 @@
+{
+    "algorithm": "depthroute",
+    "env":{
+        "env_type": "metaworld",
+        "env_name": "mt50",
+        "random_goal": false,
+        "obs_mode": "onehot_id",
+        "wrapper": [
+            {
+                "name": "scale_reward_wrapper",
+                "kwargs": {
+                    "reward_scale": 0.1
+                }
+            }
+        ]
+    },
+    "replay_buffer":{
+        "size": 10000000
+    },
+    "policy_net": "DepthRoutePolicy",
+    "value_net": "FlattenDepthRouteNet",
+    "net":{
+        "base_type": "mlp",
+        "hidden_shapes": [400, 400],
+        "em_hidden_shapes": [400],
+        "module_hidden": 128,
+        "module_num": 16,
+        "gate_hiddens": [256, 256],
+        "top_k": 2,
+        "rescale_prob": true,
+        "route_as_sample": true,
+        "use_resnet": true,
+        "resrouting": true,
+        "task_num": 50,
+        "explore_sample": true,
+        "temperature_sample": true
+    },
+    "general_setting": {
+        "discount" : 0.99,
+        "pretrain_epochs" : 20,
+        "num_epochs" : 5000,
+        "epoch_frames" : 200,
+        "max_episode_frames" : 200,
+
+        "batch_size" : 6400,
+        "min_pool" : 10000,
+
+        "target_hard_update_period" : 1000,
+        "use_soft_update" : true,
+        "tau" : 0.005,
+        "opt_times" : 200,
+
+        "eval_epoch_interval": 50,
+        "eval_episodes" : 32,
+
+        "save_interval" : 5000,
+
+        "mask_extreme_task": true,
+        "task_loss_threshold": 3e3
+    },
+    "sac":{
+        
+        "plr" : 3e-4,
+        "qlr" : 3e-4,
+        
+        "reparameterization": true,
+        "automatic_entropy_tuning": true,
+        "max_log_alpha": 0.0,
+        "temp_reweight": true,
+        "policy_std_reg_weight": 0,
+        "policy_mean_reg_weight": 0
+    }
+}
